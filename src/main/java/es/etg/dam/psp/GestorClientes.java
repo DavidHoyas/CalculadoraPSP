@@ -13,16 +13,18 @@ public class GestorClientes implements Runnable {
     public static final int INDEX_NUM2 = 2;
 
     private Socket socket;
+    private Calculadora calculadora;
+    private ContadorEuros contador;
 
-    public GestorClientes(Socket socket) {
+    public GestorClientes(Socket socket, Calculadora calculadora, ContadorEuros contador) {
         this.socket = socket;
+        this.calculadora = calculadora;
+        this.contador = contador;
     }
 
     @Override
     public void run() {
         try {
-            Calculadora calculadora = new Calculadora();
-            
             String operacion = Conexion.recibir(socket);
             String[] partes = operacion.trim().split(SPLIT);
 
@@ -32,7 +34,7 @@ public class GestorClientes implements Runnable {
 
             String resultado = calculadora.calcular(num1, operador, num2);
 
-            int costeTotal = calculadora.sumarOperacion();
+            int costeTotal = contador.sumarOperacion();
 
             String mensajeFinal = String.format(MSG_FINAL, resultado, costeTotal);
 

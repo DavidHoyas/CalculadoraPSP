@@ -9,13 +9,6 @@ public class Calculadora {
 
     public static final String MSG_KO = "KO";
 
-    private static int totalEuros = 0;
-
-    public static synchronized int sumarOperacion() {
-        totalEuros++;
-        return totalEuros;
-    }
-
     public String calcular(String num1, String operador, String num2) {
         try {
             double n1 = Double.parseDouble(num1);
@@ -25,7 +18,7 @@ public class Calculadora {
                 case OPERADOR_SUMA -> String.valueOf(n1 + n2);
                 case OPERADOR_RESTA -> String.valueOf(n1 - n2);
                 case OPERADOR_MULTIPLICACION -> String.valueOf(n1 * n2);
-                case OPERADOR_DIVISION -> n2 != 0 ? String.valueOf(n1 / n2) : MSG_KO; //operador elvis, si n2 es 0 devuelve KO
+                case OPERADOR_DIVISION -> n2 != 0 ? String.valueOf(n1 / n2) : MSG_KO;
                 default -> MSG_KO;
             };
 
@@ -34,4 +27,5 @@ public class Calculadora {
         }
     }
 }
+
 

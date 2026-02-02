@@ -13,10 +13,13 @@ public class Servidor {
         try (ServerSocket serverSocket = new ServerSocket(PUERTO)) {
             System.out.println(MSG_ESCUCHA);
 
+            ContadorEuros contador = new ContadorEuros();
+            Calculadora calculadora = new Calculadora();
+
             while (true) {
                 Socket socket = serverSocket.accept();
                 
-                Thread hilo = new Thread(new GestorClientes(socket));
+                Thread hilo = new Thread(new GestorClientes(socket, calculadora, contador));
                 hilo.start();
             }
         }

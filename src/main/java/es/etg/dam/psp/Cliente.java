@@ -10,18 +10,6 @@ public class Cliente {
     public static final String MSG_USO_CORRECTO = "Uso: java Cliente \"num1 operador num2\"";
 
     public static final int INDEX_OPERACION = 0;
-
-    private Socket socket;
-
-    public Cliente() throws IOException {
-        this.socket = new Socket(HOST, PUERTO);
-    }
-
-    public String enviarOperacion(String operacion) throws IOException {
-        Conexion.enviar(operacion, socket);
-        return Conexion.recibir(socket);
-    }
-
     public static void main(String[] args) {
 
         if (args.length != 1) {
@@ -31,9 +19,9 @@ public class Cliente {
 
         String operacion = args[INDEX_OPERACION];
 
-        try {
-            Cliente cliente = new Cliente();
-            String resultado = cliente.enviarOperacion(operacion);
+        try (Socket socket = new Socket(HOST, PUERTO)) {
+            Conexion.enviar(operacion, socket);
+            String resultado = Conexion.recibir(socket);
             System.out.println(resultado);
 
         } catch (IOException e) {
